@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تسجيل الدخول</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            direction: rtl;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0;
+            font-size: 14px;
+            color: #555;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+    </style>
+</head>
+<body>
+    <h1>Health Monitoring System</h1>
+    <div class="login-container">
+        <h2>تسجيل الدخول باستخدام رقم الهوية</h2>
+        <form id="login-form">
+            <label for="id-number">رقم الهوية</label>
+            <input type="text" id="id-number" placeholder="أدخل رقم الهوية" required>
+            <button type="submit">دخول</button>
+        </form>
+    </div>
+
+    <script>
+
+        document.getElementById("login-form").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            // تأكيد صحة رقم الهوية (مثال فقط)
+            let idNumber = document.getElementById("id-number").value;
+
+            if (idNumber) {
+                window.location = "/Menu"; // الانتقال للصفحة الثانية بعد تسجيل الدخول
+            } else {
+                alert("يرجى إدخال رقم الهوية");
+            }
+        });
+
+
+    </script>
+</body>
+</html>
