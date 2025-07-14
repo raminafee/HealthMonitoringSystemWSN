@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليل بيانات مرضى الضغط والسكري</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <style>
+
+      
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            direction: rtl; 
+        }
+
+       
+        h1 {
+            background-color: #005f6b;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+       
+        form {
+            background-color: white;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+           
+            form label {
+                display: block;
+                font-size: 1.1rem;
+                margin-bottom: 10px;
+                color: #444;
+            }
+
+       
+        input[type="file"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background-color: #009688;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+            button:hover {
+                background-color: #00796b;
+            }
+
+       
+        #analysis-results {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+            #analysis-results h2 {
+                font-size: 1.5rem;
+                color: #333;
+            }
+
+        #text-analysis {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        #data-chart {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    </style>
+</head>
+<body>
+    <h1>تحليل بيانات مرضى الضغط والسكري ودرجة الحرارة</h1>
+
+    <form id="data-form" enctype="multipart/form-data">
+        <label for="file-input">اختيار ملف البيانات (CSV):</label>
+        <input type="file" id="file-input" name="file" required>
+        <button type="submit">تحميل وتحليل البيانات</button>
+    </form>
+
+    <div id="analysis-results">
+        <h2>النتائج:</h2>
+        <p id="text-analysis">انتظر تحليل البيانات...</p>
+        <img id="data-chart" src="" alt="الرسم البياني">
+    </div>
+
+   
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
