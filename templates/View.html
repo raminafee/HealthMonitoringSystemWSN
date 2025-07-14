@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض بيانات المريض</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
+
+        /* العنوان الرئيسي */
+        h1 {
+            background-color: #005f6b;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+        table {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .analysis-results {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .analysis-resultsh2 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>temperature, blood_pressure, diabetes, SpO2, BPM Analysis</h1>
+    <h2> View Medical history</h2>
+    <h2>Welcome : {{user_role}} - {{user_idno}}</h2>
+
+
+    <div class="analysis-results">
+        <button onclick="fetchRecords()">View Data </button>
+    <table id="records_table" style="display: none;">
+        <thead>
+            <tr>
+                <th>التاريخ</th>
+                <th>درجة الحرارة</th>
+                <th>ضغط الدم</th>
+                <th>السكري</th>
+                <th>SpO2</th>
+                <th>BPM</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+    <script>
+        async function fetchRecords() {
+        
+            try {
+                const response = await fetch(`/get_records`);
+                if (!response.ok) {
+                    const error = await response.json();
+                    alert(error.error || 'حدث خطأ');
+                    return;
+                }
+
+                const records = await response.json();
+                const table = document.getElementById('records_table');
+                const tbody = table.querySelector('tbody');
+
+                // تفريغ البيانات القديمة
+                tbody.innerHTML = '';
+
+                // عرض البيانات الجديدة
+                if (records.length > 0) {
+                    records.forEach(record => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${record.timestamp}</td>
+                            <td>${record.temperature}</td>
+                            <td>${record.blood_pressure}</td>
+                            <td>${record.diabetes}</td>
+                            <td>${record.SpO2}</td>
+                            <td>${record.BPM}</td>
+                        `;
+                        tbody.appendChild(row);
+                    });
+                    table.style.display = 'table';
+                } else {
+                    alert('لا توجد سجلات لهذا المريض');
+                    table.style.display = 'none';
+                }
+            } catch (error) {
+                alert('حدث خطأ أثناء جلب البيانات');
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
