@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحميل وعرض بيانات CSV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
+
+        /* العنوان الرئيسي */
+        h1 {
+            background-color: #005f6b;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+            margin: 0;
+            font-size: 1.8rem;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        label {
+            font-size: 18px;
+            margin-right: 10px;
+        }
+
+        input[type="file"] {
+            padding: 10px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s;
+        }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+        table {
+            width: 80%;
+            margin: 30px auto;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .analysis-results {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .analysis-resultsh2 {
+            font-size: 1.5rem;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>تحليل بيانات مرضى الضغط والسكري ودرجة الحرارة</h1>
+
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <label for="file">اختر ملف CSV:</label>
+        <input type="file" name="filex" id="filex" required>
+        <button type="submit">رفع الملف</button>
+    </form>
+
+    <div class="analysis-results">
+        {% if data %}
+        <h2 class="analysis-resultsh2">أول 5 سجلات من البيانات:</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>التاريخ والوقت</th>
+                    <th>درجة الحرارة</th>
+                    <th>ضغط الدم</th>
+                    <th>السكري</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                <tr>
+                    <td>{{ row.timestamp }}</td>
+                    <td>{{ row.temperature }}</td>
+                    <td>{{ row.blood_pressure }}</td>
+                    <td>{{ row.diabetes }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+    </div>
+</body>
+</html>
+
+
+
