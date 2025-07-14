@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الصفحة الرئيسية</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            direction: rtl;
+            margin: 0;
+        }
+
+        .dashboard-container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 24px;
+            color: #333;
+        }
+
+        .page-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+            .page-list li {
+                margin: 10px 0;
+            }
+
+            .page-list a {
+                text-decoration: none;
+                color: #4CAF50;
+                font-size: 18px;
+                padding: 10px;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+            }
+
+                .page-list a:hover {
+                    background-color: #f4f4f4;
+                }
+
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <h2>Health Monitoring System</h2>
+        <h2> Welcome to Our System   </h2>
+        <h2>{{user_role}}</h2>
+        <ul class="page-list">
+            <li><a href="{{ url_for('Menu') }}"> Main Page</a></li>
+            <li><a href="{{ url_for('register') }}">New User </a></li>
+            <li><a href="{{ url_for('index') }}">  'temperature', 'blood_pressure', 'diabetes' Analysis</a></li>
+            <li><a href="{{ url_for('index2') }}"> 'temperature', 'blood_pressure', 'diabetes' Analysis Email </a></li>
+            <li><a href="{{ url_for('index3') }}"> 'temperature', 'blood_pressure', 'diabetes', 'SpO2', 'BPM' Analysis Email</a></li>
+            <li><a href="{{ url_for('upload') }}"> Last Records </a></li>
+            <li><a href="{{ url_for('view') }}"> View all reads </a></li>
+            <li><a href="{{ url_for('login') }}">  SignOut </a></li>
+            <li><a href="#">الصفحة 5</a></li>
+        </ul>
+    </div>
+</body>
+</html>
