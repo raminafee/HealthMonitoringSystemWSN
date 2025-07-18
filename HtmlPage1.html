@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تحليل بيانات مرضى الضغط والسكري</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>تحليل بيانات مرضى الضغط والسكري ودرجة الحرارة</h1>
+
+    <form id="data-form" enctype="multipart/form-data">
+        <label for="file-input">اختيار ملف البيانات (CSV):</label>
+        <input type="file" id="file-input" name="file">
+        <button type="submit">تحميل وتحليل البيانات</button>
+    </form>
+
+    <div id="analysis-results">
+        <h2>النتائج:</h2>
+        <p id="text-analysis">انتظر تحليل البيانات...</p>
+        <canvas id="data-chart"></canvas>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>

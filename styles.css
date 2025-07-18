@@ -1,0 +1,18 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding: 20px;
+}
+
+#data-form {
+    margin-bottom: 20px;
+}
+
+#analysis-results {
+    margin-top: 40px;
+}
+
+canvas {
+    max-width: 100%;
+    height: auto;
+}

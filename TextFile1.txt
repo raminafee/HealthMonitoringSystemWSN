@@ -1,0 +1,77 @@
+﻿from flask import Flask, request, render_template, jsonify
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import io
+import base64
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
+    try:
+        # تأكد من أن الملف تم رفعه بشكل صحيح
+        if 'file' not in request.files:
+            return jsonify({"error": "ملف غير موجود في الطلب"}), 400
+        
+        file = request.files['file']
+        
+        # التحقق من نوع الملف
+        if not file.filename.endswith('.csv'):
+            return jsonify({"error": "يرجى رفع ملف CSV فقط"}), 400
+        
+        # قراءة البيانات باستخدام pandas
+        df = pd.read_csv(file)
+        
+        # التحقق من الأعمدة في الملف
+        expected_columns = ['timestamp', 'temperature', 'blood_pressure', 'diabetes']
+        if not all(col in df.columns for col in expected_columns):
+            return jsonify({"error": f"الملف يجب أن يحتوي على الأعمدة التالية: {', '.join(expected_columns)}"}), 400
+
+        # تحليل البيانات
+        text_analysis = f"تم تحليل {len(df)} سجلات.\n"
+        text_analysis += f"المتوسط العام لدرجة الحرارة هو {df['temperature'].mean():.2f}°C.\n"
+
+        # تحليل السكري
+        avg_diabetes = df['diabetes'].mean()
+        if avg_diabetes > 6.0:
+            text_analysis += f"معدل السكري مرتفع بمتوسط {avg_diabetes:.2f}. يوصى بمراجعة الطبيب.\n"
+        else:
+            text_analysis += f"معدل السكري طبيعي بمتوسط {avg_diabetes:.2f}.\n"
+
+        # تحليل ضغط الدم
+        avg_blood_pressure = df['blood_pressure'].mean()
+        if avg_blood_pressure > 120:
+            text_analysis += f"ضغط الدم مرتفع بمتوسط {avg_blood_pressure:.2f}. يوصى بمراجعة الطبيب.\n"
+        else:
+            text_analysis += f"ضغط الدم طبيعي بمتوسط {avg_blood_pressure:.2f}.\n"
+        
+        # إنشاء رسم بياني باستخدام matplotlib
+        fig, ax = plt.subplots(figsize=(10, 6))
+        sns.lineplot(data=df, x='timestamp', y='temperature', label='درجة الحرارة', ax=ax)
+        sns.lineplot(data=df, x='timestamp', y='blood_pressure', label='ضغط الدم', ax=ax)
+        sns.lineplot(data=df, x='timestamp', y='diabetes', label='السكري', ax=ax)
+        ax.set_title('تحليل بيانات المرضى')
+        ax.set_xlabel('التاريخ/الوقت')
+        ax.set_ylabel('المقاييس')
+        
+        # حفظ الرسم البياني في الذاكرة
+        img_stream = io.BytesIO()
+        plt.savefig(img_stream, format='png')
+        img_stream.seek(0)
+        img_base64 = base64.b64encode(img_stream.read()).decode('utf-8')
+
+        return jsonify({
+            'textAnalysis': text_analysis,
+            'imageBase64': img_base64
+        })
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+if __name__ == "__main__":
+    app.run(debug=True)
+
